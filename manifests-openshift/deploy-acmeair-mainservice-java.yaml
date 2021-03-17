@@ -18,11 +18,18 @@ spec:
     spec:
       containers:
       - name: acmeair-mainservice-java
-        image: acmeair-mainservice-java:latest
+        image: docker.io/emanelsabban/acmeair-microsvc:acmeair-mainservice-java
         ports:
         - containerPort: 9080
         - containerPort: 9443
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
+        resources:
+          limits:
+            memory: 250Mi
+            cpu: 1
+          requests:
+            memory: 250Mi
+            cpu: 400m
         env:
         - name: USERNAME
           value: admin
@@ -40,6 +47,11 @@ spec:
           value: '*=info'
         - name: LOGGING_FORMAT
           value: 'simple'
+        - name: JAVA_OPTIONS
+          #value: '-XX:+UseJITServer -XX:JITServerAddress=ibm-java-acceleration-server -XX:JITServerTimeout=10000 -Xjit:verbose={compilePerformance|JITServer},vlog=/tmp/vlog.txt'
+          value: '-Xjit:verbose={compilePerformance},vlog=/tmp/vlog.txt'
+      nodeSelector:
+        chosen: "true"
 ---
 apiVersion: v1
 kind: Service

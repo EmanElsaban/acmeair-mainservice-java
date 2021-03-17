@@ -3,7 +3,7 @@ kind: Route
 metadata:
   name: acmeair-main-route
 spec:
-  host: _HOST_
+  host: acmeair.apps.hurricanes.os.fyre.ibm.com
   path: /acmeair
   to:
     kind: Service
